@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/google-bridge-auth/version', __FILE__)
+require File.expand_path('../lib/google-auth-bridge/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["ssatish"]
   gem.email = ["seema.satish@digital.cabinet-office.gov.uk"]
   gem.description   = "bridge for supporting multiple google authentication libraries" 
   gem.summary       = "bridge for supporting multiple google authentication libraries"  
-  gem.homepage      = "https://github.com/alphagov/google-bridge-auth"
+  gem.homepage      = "https://github.com/alphagov/google-auth-bridge"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "google-bridge-auth"
+  gem.name          = "google-auth-bridge"
   gem.require_paths = ["lib"]
   gem.version = GoogleAuthenticationBridge::VERSION
 
