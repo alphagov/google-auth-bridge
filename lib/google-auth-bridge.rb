@@ -6,11 +6,10 @@ module GoogleAuthenticationBridge
     GOOGLE_TOKENS_FILENAME = "tokens"
     GOOGLE_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
-    GOOGLE_CLIENT_ID = '1054017153726.apps.googleusercontent.com'
-    GOOGLE_CLIENT_SECRET = 'eMFsc8LU3ZGrRFG93WfQCnD3'
-
-    def initialize(scope)
+    def initialize(scope, client_id, client_secret)
       @scope = scope
+      @client_id = client_id
+      @client_secret = client_secret
     end
 
     def get_tokens(authorization_code)
@@ -25,7 +24,7 @@ module GoogleAuthenticationBridge
 
     private
     def get_oauth2_client
-      OAuth2::Client.new(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET,
+      OAuth2::Client.new(@client_id, @client_secret,
 	site: "https://accounts.google.com",
 	token_url: "/o/oauth2/token",
 	authorize_url: "/o/oauth2/auth"
@@ -34,8 +33,8 @@ module GoogleAuthenticationBridge
 
     def setup_credentials(client, code)
       authorization = client.authorization
-      authorization.client_id = GOOGLE_CLIENT_ID
-      authorization.client_secret = GOOGLE_CLIENT_SECRET
+      authorization.client_id = @client_id
+      authorization.client_secret = @client_secret
       authorization.scope = @scope
       authorization.redirect_uri = GOOGLE_REDIRECT_URI
       authorization.code = code
