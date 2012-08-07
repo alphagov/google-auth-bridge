@@ -1,5 +1,5 @@
-require 'bundler/setup'
-Bundler.require
+require "oauth2"
+require "google/api_client"
 
 module GoogleAuthenticationBridge
   class GoogleAuthentication
