@@ -12,13 +12,13 @@ module GoogleAuthenticationBridge
       @client_secret = client_secret
     end
 
-    def get_tokens(authorization_code)
+    def get_tokens(authorization_code=nil)
       client = Google::APIClient.new
       setup_credentials(client, authorization_code)
       refresh_tokens(client)
     end
 
-    def get_oauth2_access_token(authorization_code)
+    def get_oauth2_access_token(authorization_code=nil)
       OAuth2::AccessToken.from_hash(get_oauth2_client, get_tokens(authorization_code))
     end
 
