@@ -6,6 +6,14 @@ module GoogleAuthenticationBridge
     GOOGLE_TOKENS_FILENAME = "tokens"
     GOOGLE_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
+    def self.create_from_config_file(scope, file_name)
+      config = YAML.load_file(file_name)
+      GoogleAuthentication.new(
+          scope,
+          config["google_client_id"],
+          config["google_client_secret"])
+    end
+
     def initialize(scope, client_id, client_secret)
       @scope = scope
       @client_id = client_id
