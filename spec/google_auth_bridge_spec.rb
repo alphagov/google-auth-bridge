@@ -36,4 +36,12 @@ describe "Google Authentication Client" do
       @auth.load_token_from_file
     }.should raise_error(GoogleAuthenticationBridge::InvalidFileFormatError)
   end
+
+
+  it "should raise an InvalidFileFormatError exception if the file does not contain refresh token" do
+    File.open(@filename, 'w') {|f| f.write("---\n:refresh_token: !!null\n") }
+    lambda {
+      @auth.load_token_from_file
+    }.should raise_error(GoogleAuthenticationBridge::InvalidFileFormatError)
+  end
 end
