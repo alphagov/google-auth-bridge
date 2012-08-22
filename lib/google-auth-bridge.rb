@@ -5,13 +5,13 @@ module GoogleAuthenticationBridge
   class GoogleAuthentication
     GOOGLE_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
-    def self.create_from_config_file(scope, file_name)
+    def self.create_from_config_file(scope, file_name, token_file)
       config = YAML.load_file(file_name)
       GoogleAuthentication.new(
           scope,
           config["google_client_id"],
           config["google_client_secret"],
-          config["token_file"])
+          token_file)
     end
 
     def initialize(scope, client_id, client_secret, token_file)
