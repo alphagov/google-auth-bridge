@@ -71,7 +71,7 @@ module GoogleAuthenticationBridge
 
     def refresh_tokens(client)
       if File.exist? @token_file
-        client.authorization.update_token!(load_token_from_file)
+        client.authorization.update_token!(refresh_token: load_token_from_file)
         tokens = client.authorization.fetch_access_token
       else
         tokens = client.authorization.fetch_access_token
