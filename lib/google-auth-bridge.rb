@@ -33,9 +33,9 @@ module GoogleAuthenticationBridge
     private
     def get_oauth2_client
       OAuth2::Client.new(@client_id, @client_secret,
-	site: "https://accounts.google.com",
-	token_url: "/o/oauth2/token",
-	authorize_url: "/o/oauth2/auth"
+                         site: "https://accounts.google.com",
+                         token_url: "/o/oauth2/token",
+                         authorize_url: "/o/oauth2/auth"
       )
     end
 
@@ -49,12 +49,12 @@ module GoogleAuthenticationBridge
     end
 
     def refresh_tokens(client)
-      if File.exist? GOOGLE_TOKENS_FILENAME then
-	client.authorization.update_token!(Tokens::load_from_file)
-	tokens = client.authorization.fetch_access_token
+      if File.exist? GOOGLE_TOKENS_FILENAME
+        client.authorization.update_token!(Tokens::load_from_file)
+        tokens = client.authorization.fetch_access_token
       else
-	tokens = client.authorization.fetch_access_token
-	Tokens::save_to_file(tokens["refresh_token"])
+        tokens = client.authorization.fetch_access_token
+        Tokens::save_to_file(tokens[:refresh_token])
       end
       tokens
     end
@@ -62,13 +62,13 @@ module GoogleAuthenticationBridge
     public
     class Tokens
       def self.save_to_file(refresh_token)
-	File.open(GoogleAuthentication::GOOGLE_TOKENS_FILENAME, 'w') { |f|
-	  f.write({"refresh_token" => refresh_token })
-	}
+        File.open(GoogleAuthentication::GOOGLE_TOKENS_FILENAME, 'w') { |f|
+          f.write({:refresh_token => refresh_token})
+        }
       end
 
       def self.load_from_file
-	eval(open(GoogleAuthentication::GOOGLE_TOKENS_FILENAME).lines.reduce)
+        eval(open(GoogleAuthentication::GOOGLE_TOKENS_FILENAME).lines.reduce)
       end
     end
   end
