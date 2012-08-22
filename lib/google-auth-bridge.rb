@@ -3,7 +3,6 @@ require "google/api_client"
 
 module GoogleAuthenticationBridge
   class GoogleAuthentication
-    GOOGLE_TOKENS_FILENAME = "tokens"
     GOOGLE_REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
     def self.create_from_config_file(scope, file_name)
@@ -11,13 +10,15 @@ module GoogleAuthenticationBridge
       GoogleAuthentication.new(
           scope,
           config["google_client_id"],
-          config["google_client_secret"])
+          config["google_client_secret"],
+          config["token_file"])
     end
 
-    def initialize(scope, client_id, client_secret)
+    def initialize(scope, client_id, client_secret, token_file)
       @scope = scope
       @client_id = client_id
       @client_secret = client_secret
+      @token_file = token_file
     end
 
     def get_tokens(authorization_code=nil)
@@ -28,6 +29,24 @@ module GoogleAuthenticationBridge
 
     def get_oauth2_access_token(authorization_code=nil)
       OAuth2::AccessToken.from_hash(get_oauth2_client, get_tokens(authorization_code))
+    end
+
+    def load_token_from_file
+      raise FileNotFoundError.new(@token_file) unless File.exists? @token_file
+
+      begin
+        token_data = YAML.load_file(@token_file)
+
+        token_data[:refresh_token]
+      rescue
+        raise InvalidFileFormatError.new(@token_file)
+      end
+    end
+
+    def save_token_to_file(refresh_token)
+      File.open(@token_file, 'w') { |f|
+        f.write(YAML.dump({:refresh_token => refresh_token}))
+      }
     end
 
     private
@@ -49,27 +68,24 @@ module GoogleAuthenticationBridge
     end
 
     def refresh_tokens(client)
-      if File.exist? GOOGLE_TOKENS_FILENAME
-        client.authorization.update_token!(Tokens::load_from_file)
+      if File.exist? @token_file
+        client.authorization.update_token!(load_token_from_file)
         tokens = client.authorization.fetch_access_token
       else
         tokens = client.authorization.fetch_access_token
-        Tokens::save_to_file(tokens[:refresh_token])
+        save_token_to_file(tokens[:refresh_token])
       end
       tokens
     end
 
-    public
-    class Tokens
-      def self.save_to_file(refresh_token)
-        File.open(GoogleAuthentication::GOOGLE_TOKENS_FILENAME, 'w') { |f|
-          f.write({:refresh_token => refresh_token})
-        }
-      end
+  end
 
-      def self.load_from_file
-        eval(open(GoogleAuthentication::GOOGLE_TOKENS_FILENAME).lines.reduce)
-      end
-    end
+  class Error < Exception
+  end
+
+  class FileNotFoundError < Error
+  end
+
+  class InvalidFileFormatError < Error
   end
 end
