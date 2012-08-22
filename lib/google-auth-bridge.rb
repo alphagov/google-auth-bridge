@@ -46,6 +46,7 @@ module GoogleAuthenticationBridge
     end
 
     def save_token_to_file(refresh_token)
+      raise InvalidTokenError.new(refresh_token) if refresh_token.nil?
       File.open(@token_file, 'w') { |f|
         f.write(YAML.dump({:refresh_token => refresh_token}))
       }
@@ -75,7 +76,7 @@ module GoogleAuthenticationBridge
         tokens = client.authorization.fetch_access_token
       else
         tokens = client.authorization.fetch_access_token
-        save_token_to_file(tokens[:refresh_token])
+        save_token_to_file(tokens["refresh_token"])
       end
       tokens
     end
@@ -86,8 +87,20 @@ module GoogleAuthenticationBridge
   end
 
   class FileNotFoundError < Error
+    def initialize filename
+      super "File not found #{filename}"
+    end
   end
 
   class InvalidFileFormatError < Error
+    def initialize filename
+      super "Invalid token file format in '#{filename}'."
+    end
+  end
+
+  class InvalidTokenError < Error
+    def initialize token
+      super "Invalid token '#{token.inspect}'."
+    end
   end
 end

@@ -19,6 +19,12 @@ describe "Google Authentication Client" do
     File.read(@filename).should == @yaml_content
   end
 
+  it "should raise an InvalidTokenError exception if the refresh token is nil" do
+    lambda {
+      @auth.save_token_to_file(nil)
+    }.should raise_error(GoogleAuthenticationBridge::InvalidTokenError)
+  end
+
   it "should load refresh token from yaml file" do
     File.open(@filename, 'w') {|f| f.write(@yaml_content) }
     @auth.load_token_from_file.should == "foo bar"
