@@ -31,6 +31,10 @@ module GoogleAuthenticationBridge
       OAuth2::AccessToken.from_hash(get_oauth2_client, get_tokens(authorization_code))
     end
 
+    def get_auth_url
+      "https://accounts.google.com/o/oauth2/auth?response_type=code&scope=#{URI::encode(@scope)}&redirect_uri=#{GOOGLE_REDIRECT_URI}&client_id=#{URI::encode(@client_id)}"
+    end
+
     def load_token_from_file
       raise FileNotFoundError.new(@token_file) unless File.exists? @token_file
 
