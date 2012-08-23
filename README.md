@@ -46,3 +46,9 @@ file.
       "/path/to/credentials.yml",
       "/path/to/token-file.yml"
     )
+
+The credentials file should contain the client id and the client secret.
+
+    ---
+    google_client_id: "client id"
+    google_client_secret: "client secret"
