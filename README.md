@@ -13,7 +13,8 @@ With Google Drive https://github.com/gimite/google-drive-ruby
     auth = GoogleAuthenticationBridge::GoogleAuthentication.new(
       "https://docs.google.com/feeds/ https://docs.googleusercontent.com/ https://spreadsheets.google.com/feeds/",
       "client-id",
-      "client-secret"
+      "client-secret",
+      "/path/to/token-file.yml"
     )
     # first time to create the refresh token
     token = auth.get_oauth2_access_token("auth-code")
@@ -26,7 +27,8 @@ With Google API Client http://code.google.com/p/google-api-ruby-client/
     auth = GoogleAuthenticationBridge::GoogleAuthentication.new(
       "https://www.googleapis.com/auth/analytics.readonly",
       "client-id",
-      "client-secret"
+      "client-secret",
+      "/path/to/token-file.yml"
     )
     # first time to create the refresh token
     token = auth.get_tokens("auth-code")
@@ -35,3 +37,12 @@ With Google API Client http://code.google.com/p/google-api-ruby-client/
 
     client = Google::APIClient.new
     client.update_token!(token)
+
+Rather than providing the credentials directly you can build the authentication object from a YAML configuration
+file.
+
+    auth = GoogleAuthenticationBridge::GoogleAuthentication.create_from_config_file(
+      "scope",
+      "/path/to/credentials.yml",
+      "/path/to/token-file.yml"
+    )
