@@ -1,2 +1,5 @@
 pkg
 Gemfile.lock
+spec/reports
+.bundle
+*.gem
