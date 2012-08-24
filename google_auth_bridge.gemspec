@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/google-auth-bridge/version', __FILE__)
+require File.expand_path('../lib/google_auth_bridge/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = %w(ssatish)
@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "google-auth-bridge"
+  gem.name          = "google_auth_bridge"
   gem.require_paths = %w(lib)
   gem.version = GoogleAuthenticationBridge::VERSION
 

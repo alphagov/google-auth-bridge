@@ -1,4 +1,4 @@
-require_relative "../lib/google-auth-bridge"
+require_relative "../lib/google_auth_bridge"
 require "tempfile"
 
 describe "Google Authentication Client" do
