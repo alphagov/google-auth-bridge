@@ -18,7 +18,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency('oauth2')
   gem.add_dependency('google-api-client')
 
-  gem.add_development_dependency('rake')
-  gem.add_development_dependency('rspec')
+  gem.add_development_dependency("rake")
+  gem.add_development_dependency("rspec")
+  gem.add_development_dependency("gem_publisher", "~> 1.1.1")
 
 end
