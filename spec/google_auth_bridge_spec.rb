@@ -6,6 +6,7 @@ describe "Google Authentication Client" do
     @filename = "/tmp/test.token"
     @auth = GoogleAuthenticationBridge::GoogleAuthentication.new(nil, nil, nil, @filename)
     @yaml_content = "---\n:refresh_token: foo bar\n"
+    @yaml_pattern = /---\s?\n:refresh_token: foo bar\n/
   end
 
   after(:each) do
@@ -16,7 +17,7 @@ describe "Google Authentication Client" do
     File.exists?(@filename).should be_false
     @auth.save_token_to_file("foo bar")
     File.exists?(@filename).should be_true
-    File.read(@filename).should == @yaml_content
+    File.read(@filename).should match(@yaml_pattern)
   end
 
   it "should raise an InvalidTokenError exception if the refresh token is nil" do
