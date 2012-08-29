@@ -2,8 +2,8 @@
 require File.expand_path('../lib/google_auth_bridge/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = %w(ssatish)
-  gem.email = %w(seema.satish@digital.cabinet-office.gov.uk)
+  gem.authors       = ["GOV.UK Dev"]
+  gem.email = %w(govuk-dev@digital.cabinet-office.gov.uk)
   gem.description   = "bridge for supporting multiple google authentication libraries" 
   gem.summary       = "bridge for supporting multiple google authentication libraries"  
   gem.homepage      = "https://github.com/alphagov/google-auth-bridge"
@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency("rake")
   gem.add_development_dependency("rspec")
   gem.add_development_dependency("ci_reporter")
+  gem.add_development_dependency("simplecov")
   gem.add_development_dependency("gem_publisher", "~> 1.1.1")
 
 end

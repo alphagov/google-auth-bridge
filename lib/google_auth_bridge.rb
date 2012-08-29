@@ -40,10 +40,7 @@ module GoogleAuthenticationBridge
 
       begin
         token_data = YAML.load_file(@token_file)
-        token = token_data[:refresh_token]
-
-        raise InvalidFileFormatError.new(@token_file) unless token
-        token
+        token_data[:refresh_token] or raise
       rescue
         raise InvalidFileFormatError.new(@token_file)
       end

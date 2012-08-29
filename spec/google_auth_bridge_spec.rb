@@ -1,3 +1,6 @@
+require "simplecov"
+SimpleCov.start
+
 require_relative "../lib/google_auth_bridge"
 require "tempfile"
 
