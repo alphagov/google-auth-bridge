@@ -7,10 +7,12 @@ module GoogleAuthenticationBridge
 
     def self.create_from_config_file(scope, file_name, token_file)
       config = YAML.load_file(file_name)
+      client_id, client_secret = config[:google_client_id], config[:google_client_secret]
+      raise InvalidFileFormatError.new(@token_file) if client_id.nil? or client_secret.nil?
       GoogleAuthentication.new(
           scope,
-          config["google_client_id"],
-          config["google_client_secret"],
+          client_id,
+          client_secret,
           token_file)
     end
 
