@@ -3,4 +3,5 @@ Gemfile.lock
 spec/reports
 .bundle
 *.gem
+*.swp
 coverage
